@@ -23,9 +23,19 @@ async function run() {
   const toysCollection = client.db("toyCarsDB").collection("toyCars");
   try {
     await client.connect();
+    // app.get("/toys", async (req, res) => {
+    //   const result = await toysCollection.find().toArray();
+    //   res.send(result);
+    // });
+
     app.get("/toys", async (req, res) => {
-      const cursor = toysCollection.find();
-      const result = await cursor.toArray();
+      let query = {};
+      if (req.query?.email) {
+        query = {
+          sellerEmail: req.query.email,
+        };
+      }
+      const result = await toysCollection.find(query).toArray();
       res.send(result);
     });
 
