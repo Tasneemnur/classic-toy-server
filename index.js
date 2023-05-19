@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
@@ -44,6 +44,13 @@ async function run() {
       const result = await toysCollection.insertOne(toy);
       res.send(result);
     });
+
+    app.delete("/toys/:id", async(req, res) => {
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)}
+        const result = await toysCollection.deleteOne(query);
+        res.send(result)
+      })
 
     await client.db("admin").command({ ping: 1 });
     console.log(
