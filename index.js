@@ -39,13 +39,20 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/toys/:category", async(req, res) => {
+    app.get("/toys/:id", async(req, res) => {
+      const id = req.params.id;
+      console.log(id)
+      const query = { _id: new ObjectId(id)}
+      const result = await toysCollection.findOne(query);
+      res.send(result)
+    })
+
+    app.get("/categories/:category", async(req, res) => {
       const category = req.params.category;
       const query = { category: category}
       const result = await toysCollection.find(query).toArray()
       res.send(result)
     })
-
     app.post("/toys", async (req, res) => {
       const toy = req.body;
       const result = await toysCollection.insertOne(toy);
