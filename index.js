@@ -26,11 +26,15 @@ async function run() {
 
     app.get("/toys", async (req, res) => {
       let query = {};
+      if (req.query?.search) {
+        query = {toyName: { $regex: req.query.search,}}
+      }
       if (req.query?.email) {
         query = {
           sellerEmail: req.query.email,
         };
       }
+      
       const limit = 20;
       const result = await toysCollection.find(query).sort({price: -1}).limit(limit).toArray();
       res.send(result);
