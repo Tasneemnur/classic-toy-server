@@ -35,7 +35,8 @@ async function run() {
           sellerEmail: req.query.email,
         };
       }
-      const result = await toysCollection.find(query).toArray();
+      const limit = 20;
+      const result = await toysCollection.find(query).sort({price: -1}).limit(limit).toArray();
       res.send(result);
     });
 
