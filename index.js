@@ -22,11 +22,7 @@ const client = new MongoClient(uri, {
 async function run() {
   const toysCollection = client.db("toyCarsDB").collection("toyCars");
   try {
-    await client.connect();
-    // app.get("/toys", async (req, res) => {
-    //   const result = await toysCollection.find().toArray();
-    //   res.send(result);
-    // });
+   
 
     app.get("/toys", async (req, res) => {
       let query = {};
